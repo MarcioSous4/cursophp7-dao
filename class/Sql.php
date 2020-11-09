@@ -37,5 +37,4 @@ class Sql extends PDO
 		return $stmt->fetchALL(PDO::FETCH_ASSOC);
 	}
 }
-
 ?>

@@ -56,6 +56,36 @@ class Usuario
 			$this->setDtcadastro(new DateTime($row['dtcadastro']));
 		}
 	}
+
+	public static function getList(){//não precisa instanciar um obj para acessar o método
+		$sql=new Sql();
+		return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
+	}
+
+	public static function search($login){
+		$sql=new Sql();
+		return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin", array(':SEARCH'=>"%".$login."%"));
+	}
+
+	public function login($login, $password){
+
+		$sql = new Sql();
+
+		$results=$sql->select("SELECT * FROM tb_usuarios WHERE deslogin=:LOGIN AND dessenha=:PASSWORD", array(":LOGIN"=>$login,":PASSWORD"=>$password));
+		
+		//if(isset($results[0]))
+		if(count($results)>0){//existe pelo menos 1 índice
+			
+			$row=$results[0];
+
+			$this->setIdusuario($row['idusuario']);
+			$this->setDeslogin($row['deslogin']);
+			$this->setDessenha($row['dessenha']);
+			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+		}else{
+			throw new Exception("Login e/ou senha inválidos.");		
+		}
+	}
 	public function __toString(){//exibir dados do obj
 
 		return json_encode(array(
@@ -66,5 +96,4 @@ class Usuario
 		));
 	}
 }
-
 ?>
