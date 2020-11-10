@@ -47,13 +47,8 @@ class Usuario
 		
 		//if(isset($results[0]))
 		if(count($results)>0){//existe pelo menos 1 índice
-			
-			$row=$results[0];
 
-			$this->setIdusuario($row['idusuario']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+			$this->setData($results[0]);
 		}
 	}
 
@@ -74,18 +69,35 @@ class Usuario
 		$results=$sql->select("SELECT * FROM tb_usuarios WHERE deslogin=:LOGIN AND dessenha=:PASSWORD", array(":LOGIN"=>$login,":PASSWORD"=>$password));
 		
 		//if(isset($results[0]))
-		if(count($results)>0){//existe pelo menos 1 índice
-			
-			$row=$results[0];
+		if(count($results)>0){//existe pelo menos 1 índice			
 
-			$this->setIdusuario($row['idusuario']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+			$this->setData($results[0]);
+			
 		}else{
 			throw new Exception("Login e/ou senha inválidos.");		
 		}
 	}
+
+	public function setData($data){
+
+		$this->setIdusuario($data['idusuario']);
+		$this->setDeslogin($data['deslogin']);
+		$this->setDessenha($data['dessenha']);
+		$this->setDtcadastro(new DateTime($data['dtcadastro']));
+	}
+
+	public function insert(){
+		$sql = new Sql();
+		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD", array(
+			':LOGIN'=>$this->getDeslogin(),
+			':PASSWORD'=>$this->getDessenha()
+		));
+
+		if (count($results)>0){
+			$this->setData($results[0]);
+		}
+	}
+
 	public function __toString(){//exibir dados do obj
 
 		return json_encode(array(
