@@ -29,10 +29,15 @@ require_once("config.php");
 //echo $usuario;
 
 //**** INSERT ****
-$aluno = new Usuario();
-$aluno->setDeslogin("aluno");
-$aluno->setDessenha("4lun0");
-$aluno->insert();
-echo $aluno;
+//$usuario = new Usuario("Romilde","f123u");
+//$usuario->insert();
+//echo $usuario;
+
+//**** UPDATE ****
+$usuario = new Usuario();
+$usuario->loadById(7);
+$usuario->update("Paula","p4ul4");
+echo $usuario;
+
 
 ?>
