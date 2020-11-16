@@ -34,10 +34,15 @@ require_once("config.php");
 //echo $usuario;
 
 //**** UPDATE ****
-$usuario = new Usuario();
-$usuario->loadById(7);
-$usuario->update("Paula","p4ul4");
-echo $usuario;
+//$usuario = new Usuario();
+//$usuario->loadById(7);
+//$usuario->update("Paula","p4ul4");
+//echo $usuario;
 
+//**** DELETE ****
+$usuario = new Usuario();
+$usuario->loadById(5);
+$usuario->delete();
+echo $usuario;
 
 ?>
